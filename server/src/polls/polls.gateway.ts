@@ -1,5 +1,13 @@
-import { Logger, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
+  Logger,
+  UseFilters,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import {
+  ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
@@ -13,6 +21,7 @@ import { Namespace } from 'socket.io';
 import { PollsService } from './polls.service';
 import { SocketWithAuth } from './types';
 import { WsCatchAllFilter } from 'src/exceptions/ws-catch-all-filter';
+import { GatewayAdminGuard } from './gateway-admin.guard';
 
 @UsePipes(new ValidationPipe())
 @UseFilters(new WsCatchAllFilter())
@@ -90,8 +99,21 @@ export class PollsGateway
     }
   }
 
-  @SubscribeMessage('test')
-  async test() {
-    throw new Error('Hey');
+  @UseGuards(GatewayAdminGuard)
+  @SubscribeMessage('remove_participant')
+  async removeParticipant(
+    @MessageBody('id') id: string,
+    @ConnectedSocket() client: SocketWithAuth,
+  ) {
+    this.logger.debug(
+      `Attempting to remove participant ${id} from poll ${client.pollID}`,
+    );
+
+    const updatedPoll = await this.pollsService.removeParticipant(
+      client.pollID,
+      id,
+    );
+
+    this.io.to(client.pollID).emit('poll_updated', updatedPoll);
   }
 }
