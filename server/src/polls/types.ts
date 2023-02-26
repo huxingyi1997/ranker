@@ -41,3 +41,14 @@ type AuthPayload = {
 
 export type RequestWithAuth = Request & AuthPayload;
 export type SocketWithAuth = Socket & AuthPayload;
+// in service types section
+export interface AddParticipantFields {
+  pollID: string;
+  userID: string;
+  name: string;
+}
+
+export interface RemoveParticipantData {
+  pollID: string;
+  userID: string;
+}
