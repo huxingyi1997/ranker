@@ -23,14 +23,20 @@ export type AddNominationData = {
   nomination: Nomination;
 };
 
+export type Results = Array<{
+  nominationID: NominationID;
+  nominationText: string;
+  score: number;
+}>;
+
 export interface Poll {
   id: string;
   topic: string;
   votesPerVoter: number;
   participants: Participants;
-  adminID: string;
   nominations: Nominations;
   rankings: Rankings;
-  // results: Results;
+  results: Results;
+  adminID: string;
   hasStarted: boolean;
 }
