@@ -20,10 +20,22 @@ export type RejoinPollFields = {
   name: string;
 };
 
+export type AddParticipantFields = {
+  pollID: string;
+  userID: string;
+  name: string;
+};
+
 export type AddNominationFields = {
   pollID: string;
   userID: string;
   text: string;
+};
+
+export type SubmitRankingsFields = {
+  pollID: string;
+  userID: string;
+  rankings: string[];
 };
 
 // polls repository types
@@ -46,6 +58,18 @@ export type AddNominationData = {
   nomination: Nomination;
 };
 
+export type AddParticipantRankingsData = {
+  pollID: string;
+  userID: string;
+  rankings: string[];
+};
+
+// in service types section
+export type RemoveParticipantData = {
+  pollID: string;
+  userID: string;
+};
+
 // guard types
 export type AuthPayload = {
   userID: string;
@@ -55,14 +79,3 @@ export type AuthPayload = {
 
 export type RequestWithAuth = Request & AuthPayload;
 export type SocketWithAuth = Socket & AuthPayload;
-// in service types section
-export interface AddParticipantFields {
-  pollID: string;
-  userID: string;
-  name: string;
-}
-
-export interface RemoveParticipantData {
-  pollID: string;
-  userID: string;
-}
