@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useSnapshot } from 'valtio';
 import { CSSTransition } from 'react-transition-group';
@@ -19,6 +19,8 @@ const routeConfig = {
 const Pages: React.FC = () => {
   // import the state and hook
   const currentState = useSnapshot(state);
+  const nodeRef = useRef(null);
+
   return (
     <>
       {Object.entries(routeConfig).map(([page, Component]) => (
@@ -28,8 +30,12 @@ const Pages: React.FC = () => {
           timeout={300}
           classNames="page"
           unmountOnExit
+          nodeRef={nodeRef}
         >
-          <div className="page mobile-height max-w-screen-sm mx-auto py-8 px-4 overflow-y-auto">
+          <div
+            className="page mobile-height max-w-screen-sm mx-auto py-8 px-4 overflow-y-auto"
+            ref={nodeRef}
+          >
             <Component />
           </div>
         </CSSTransition>
