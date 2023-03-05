@@ -22,7 +22,11 @@ const Pages: React.FC = () => {
   const nodeRef = useRef(null);
 
   useEffect(() => {
-    if (currentState.me?.id && !currentState.poll?.hasStarted) {
+    if (
+      currentState.me?.id &&
+      currentState.poll &&
+      !currentState.poll?.hasStarted
+    ) {
       actions.setPage(AppPage.WaitingRoom);
     }
 
