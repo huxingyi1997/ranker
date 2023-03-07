@@ -1,10 +1,12 @@
 import React from 'react';
+
+import { Results } from 'shared';
+
 import ResultCard from './ui/ResultCard';
 import HorizontalSwipeList from './ui/HorizontalSwipeList';
-import { RoundResult } from 'shared/poll-types';
 
 type ResultsList = {
-  results: DeepReadonly<RoundResult[]>;
+  results: DeepReadonly<Results>;
 };
 
 const ResultsList: React.FC<ResultsList> = ({ results }) => {
@@ -13,7 +15,7 @@ const ResultsList: React.FC<ResultsList> = ({ results }) => {
       <HorizontalSwipeList>
         {results.map((result, i) => (
           // Can use index as we'll never change list
-          <ResultCard key={i} result={result} />
+          <ResultCard key={i} results={results} />
         ))}
       </HorizontalSwipeList>
     </div>
