@@ -19,10 +19,8 @@ export class PollsController {
   constructor(private pollsService: PollsService) {}
 
   @Post()
-  async create(@Body() createPollDto: CreatePollDto) {
-    const result = await this.pollsService.createPoll(createPollDto);
-
-    return result;
+  create(@Body() createPollDto: CreatePollDto) {
+    return this.pollsService.createPoll(createPollDto);
   }
 
   @Post('/join')

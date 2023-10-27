@@ -4,6 +4,7 @@ import {
   Catch,
   ExceptionFilter,
 } from '@nestjs/common';
+
 import { SocketWithAuth } from 'src/polls/types';
 import {
   WsBadRequestException,

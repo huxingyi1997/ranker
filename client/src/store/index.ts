@@ -71,13 +71,13 @@ const state = proxy<AppState>({
     }
     return this.me?.id === this.poll?.adminID;
   },
-  get participantCount() {
+  get participantCount(): number {
     return Object.keys(this.poll?.participants || {}).length;
   },
-  get nominationCount() {
+  get nominationCount(): number {
     return Object.keys(this.poll?.nominations || {}).length;
   },
-  get canStartVote() {
+  get canStartVote(): boolean {
     const votesPerVoter = this.poll?.votesPerVoter ?? 100;
 
     return this.nominationCount >= votesPerVoter;

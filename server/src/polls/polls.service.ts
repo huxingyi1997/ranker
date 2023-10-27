@@ -1,4 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
+import { Poll } from 'shared';
 
 import {
   AddNominationFields,
@@ -8,10 +11,8 @@ import {
   RejoinPollFields,
   SubmitRankingsFields,
 } from './types';
-import { createNominationID, createPollID, createUserID } from '../ids';
+import { createNominationID, createPollID, createUserID } from '../utils';
 import { PollsRepository } from './polls.repository';
-import { JwtService } from '@nestjs/jwt';
-import { Poll } from 'shared';
 import { getResults } from './getResults';
 
 @Injectable()
