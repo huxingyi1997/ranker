@@ -1,10 +1,10 @@
-import { Nominations, Rankings, Results } from 'shared';
+import { Nominations, Rankings, Result } from './dto/polls.dto';
 
 export const getResults = (
   rankings: Rankings,
   nominations: Nominations,
   votesPerVoter?: number,
-): Results => {
+): Result[] => {
   // 1. Each value of `rankings` key values is an array of a participants'
   // vote. Points for each array element corresponds to following formula:
   // r_n = ((votesPerVoter - 0.5*n) / votesPerVoter)^(n+1), where n corresponds

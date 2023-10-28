@@ -1,8 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { Poll } from 'shared';
-
+import { Poll } from './dto/polls.dto';
 import {
   AddNominationFields,
   AddParticipantFields,

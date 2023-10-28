@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { Socket } from 'socket.io';
 
-import { Nomination } from 'shared';
+import { Nomination } from './dto/polls.dto';
 
 export type CreatePollFields = {
   topic: string;

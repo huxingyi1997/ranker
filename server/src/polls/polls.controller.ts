@@ -9,7 +9,12 @@ import {
 } from '@nestjs/common';
 
 import { PollsService } from './polls.service';
-import { CreatePollDto, JoinPollDto } from './dtos';
+import {
+  CreatePollDto,
+  CreatePollVo,
+  JoinPollDto,
+  JoinPollVo,
+} from './dto/polls.dto';
 import { ControllerAuthGuard } from './controller-auth.guard';
 import { RequestWithAuth } from './types';
 
@@ -19,12 +24,12 @@ export class PollsController {
   constructor(private pollsService: PollsService) {}
 
   @Post()
-  create(@Body() createPollDto: CreatePollDto) {
+  create(@Body() createPollDto: CreatePollDto): Promise<CreatePollVo> {
     return this.pollsService.createPoll(createPollDto);
   }
 
   @Post('/join')
-  async join(@Body() joinPollDto: JoinPollDto) {
+  async join(@Body() joinPollDto: JoinPollDto): Promise<JoinPollVo> {
     const result = await this.pollsService.joinPoll(joinPollDto);
 
     return result;

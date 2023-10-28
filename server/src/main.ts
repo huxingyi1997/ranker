@@ -1,9 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { AppModule } from './app.module';
 
 import { SocketIOAdapter } from './socket-io-adapter';
+import { apiVersion } from './constants';
 
 async function bootstrap() {
   const logger = new Logger('Main (main.ts)');
@@ -19,6 +22,19 @@ async function bootstrap() {
     ],
   });
   app.useWebSocketAdapter(new SocketIOAdapter(app, configService));
+  /** Swagger setup */
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Amazon Clone API')
+    .setDescription(`v${apiVersion}`)
+    .setVersion(`${apiVersion}`)
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api-docs', app, document, {
+    swaggerOptions: {
+      defaultModelRendering: 'model',
+    },
+  });
 
   const port = parseInt(configService.get('PORT'));
   await app.listen(port);

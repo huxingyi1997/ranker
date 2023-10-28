@@ -1,4 +1,4 @@
-import { Nominations, Rankings } from 'shared';
+import { Nominations, Rankings } from '../dto/polls.dto';
 
 import { getResults } from '../getResults';
 

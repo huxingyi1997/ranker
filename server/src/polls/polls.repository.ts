@@ -7,8 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
 
-import { Poll, Results } from 'shared';
-
+import { Poll, Result } from './dto/polls.dto';
 import { IORedisKey } from '../redis/redis.module';
 import {
   AddNominationData,
@@ -258,7 +257,7 @@ export class PollsRepository {
     }
   }
 
-  async addResults(pollID: string, results: Results): Promise<Poll> {
+  async addResults(pollID: string, results: Result[]): Promise<Poll> {
     this.logger.log(
       `Attempting to add results to pollID: ${pollID}`,
       JSON.stringify(results),
