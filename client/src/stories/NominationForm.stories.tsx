@@ -2,7 +2,13 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import NominationForm from '../components/NominationForm';
-import { Nominations } from 'shared/poll-types';
+import { Nomination } from '../api/autogen';
+
+type NominationID = string;
+
+export type Nominations = {
+  [nominationID: NominationID]: Nomination;
+};
 
 export default {
   title: 'NominationForm',

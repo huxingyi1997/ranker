@@ -1,7 +1,10 @@
 import React from 'react';
 import { MdClose } from 'react-icons/md';
 import BottomSheet, { BottemSheetProps } from './ui/BottomSheet';
-import { Participants } from 'shared/poll-types';
+
+interface Participants {
+  [participantID: string]: string;
+}
 
 type ParticipantListProps = {
   participants?: Participants;

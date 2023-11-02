@@ -9,6 +9,7 @@
     "test": "jest src",
     "test:cover": "jest --coverage",
     "storybook": "start-storybook -p 6006",
+    "gen-api": "node ./src/api/json-merge.cjs && openapi-generator-cli generate -i ./src/api/new-api-docs.json -g typescript-axios -o ./src/api/autogen --skip-validate-spec",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-links": "^6.4.19",

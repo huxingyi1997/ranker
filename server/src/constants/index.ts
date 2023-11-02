@@ -1,1 +1,2 @@
-export const apiVersion = 1;
+export * from './config';
+export * from './path';

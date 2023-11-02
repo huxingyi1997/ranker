@@ -5,8 +5,7 @@
   "main": "index.js",
   "workspaces": [
     "client",
-    "server",
-    "shared"
+    "server"
   ],
   "scripts": {
     "docker:compose": "docker-compose up -d",
@@ -14,11 +13,12 @@
     "server:dev": "wait-on tcp:6379 && npm run start:dev --workspace=server",
     "start": "concurrently 'npm:docker:compose' 'npm:server:dev' 'npm:client:dev'",
     "storybook": "npm run storybook --workspace=client",
+    "gen-api": "npm run gen-api --workspace=client && npm run lint",
     "stop": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "git-cz",
     "prepare": "husky install",
-    "lint": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss,md}"
+    "lint": "prettier --write **/*.{js,ts,tsx,json,css,md}"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
     "nestjs",
     "socketjs"
   ],
-  "author": "Jacob Goodwin",
+  "author": "Jacob Goodwin, Xingyi Hu",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/huxingyi1997/ranker/issues"

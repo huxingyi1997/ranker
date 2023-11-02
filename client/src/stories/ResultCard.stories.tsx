@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import ResultCard from '../components/ui/ResultCard';
-import { Results } from 'shared/poll-types';
+import { Result } from '../api/autogen';
 
 // copy this whole code
 export default {
@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof ResultCard> = (args) => (
   </div>
 );
 
-const results: Results = [
+const results: Result[] = [
   {
     nominationID: '1',
     score: 5.0,

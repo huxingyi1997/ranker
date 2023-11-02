@@ -3,10 +3,10 @@ import { proxy, ref } from 'valtio';
 import { Socket } from 'socket.io-client';
 import { subscribeKey } from 'valtio/utils';
 import { nanoid } from 'nanoid';
-import { Poll } from 'shared';
 
 import { getTokenPayload } from '../util';
 import { createSocketWithHandlers, socketIOUrl } from '../socket-io';
+import { Poll } from '../api/autogen';
 
 export enum AppPage {
   Welcome = 'welcome',

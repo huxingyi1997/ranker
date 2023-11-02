@@ -4,35 +4,42 @@ import {
   PickType,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { IsInt, IsString, Length, Max, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, Length, Max, Min } from 'class-validator';
 
 export class CreatePollDto {
   @IsString()
+  @IsNotEmpty()
   @Length(1, 100)
   topic: string;
 
   @IsInt()
+  @IsNotEmpty()
   @Min(1)
   @Max(5)
   votesPerVoter: number;
 
   @IsString()
+  @IsNotEmpty()
   @Length(1, 25)
   name: string;
 }
 
 export class JoinPollDto extends PickType(CreatePollDto, ['name']) {
   @IsString()
+  @IsNotEmpty()
   @Length(6, 6)
   pollID: string;
+}
 
+export class RejoinPollDto {
   @IsString()
-  @Length(1, 25)
-  name: string;
+  @IsNotEmpty()
+  accessToken: string;
 }
 
 export class NominationDto {
   @IsString()
+  @IsNotEmpty()
   @Length(1, 100)
   text: string;
 }
@@ -56,12 +63,6 @@ export class Rankings {
   [userID: string]: NominationID[];
 }
 
-export class AddNominationData {
-  pollID: string;
-  nominationID: string;
-  nomination: Nomination;
-}
-
 export class Result {
   nominationID: NominationID;
   nominationText: string;
@@ -79,10 +80,7 @@ export class Poll {
   @ApiProperty({
     type: 'object',
     additionalProperties: {
-      type: 'object',
-      additionalProperties: {
-        type: 'string',
-      },
+      type: 'string',
     },
   })
   participants: Participants;
@@ -90,10 +88,7 @@ export class Poll {
   @ApiProperty({
     type: 'object',
     additionalProperties: {
-      type: 'object',
-      additionalProperties: {
-        $ref: getSchemaPath(Nomination),
-      },
+      $ref: getSchemaPath(Nomination),
     },
   })
   nominations: Nominations;
@@ -101,11 +96,8 @@ export class Poll {
   @ApiProperty({
     type: 'object',
     additionalProperties: {
-      type: 'object',
-      additionalProperties: {
-        type: 'array',
-        items: { type: 'string' },
-      },
+      type: 'array',
+      items: { type: 'string' },
     },
   })
   rankings: Rankings;
@@ -124,3 +116,5 @@ export class CreatePollVo {
 }
 
 export class JoinPollVo extends CreatePollVo {}
+
+export class RejoinPollVo extends PickType(CreatePollVo, ['poll']) {}

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 
-import { Poll } from 'shared';
-
 import { AppPage, actions } from '../store';
 import CountSelector from '../components/ui/CountSelector';
-import { makeRequest } from '../api';
+import { pollsApiInterface } from '../api';
 
 const Create: React.FC = () => {
   const [pollTopic, setPollTopic] = useState<string>('');
@@ -33,26 +31,21 @@ const Create: React.FC = () => {
     actions.startLoading();
     setApiError('');
 
-    const { data, error } = await makeRequest<{
-      poll: Poll;
-      accessToken: string;
-    }>('/polls', {
-      method: 'POST',
-      body: JSON.stringify({
-        topic: pollTopic,
-        votesPerVoter: maxVotes,
-        name,
-      }),
+    const res = await pollsApiInterface.pollsControllerCreate({
+      topic: pollTopic,
+      votesPerVoter: maxVotes,
+      name,
     });
+    const { data, error_msg, error } = res.data;
 
     console.log(data, error);
 
-    if (error && error.statusCode === 400) {
-      console.log('400 error', error);
-      setApiError('Name and poll topic are both required!');
-    } else if (error && error.statusCode !== 400) {
-      setApiError(error.messages[0]);
-    } else {
+    if (error_msg && error === 400) {
+      console.log('400 error', error_msg);
+      setApiError(error_msg);
+    } else if (error_msg && error !== 400) {
+      setApiError(error_msg || '');
+    } else if (data) {
       actions.initializePoll(data.poll);
       actions.setPollAccessToken(data.accessToken);
       actions.setPage(AppPage.WaitingRoom);

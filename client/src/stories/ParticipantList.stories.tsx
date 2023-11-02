@@ -2,7 +2,10 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import ParticipantList from '../components/ParticipantList';
-import { Participants } from 'shared/poll-types';
+
+interface Participants {
+  [participantID: string]: string;
+}
 
 export default {
   title: 'ParticipantList',

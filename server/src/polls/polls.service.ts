@@ -89,7 +89,7 @@ export class PollsService {
     );
 
     const joinedPoll = await this.pollsRepository.addParticipant(poll);
-    return joinedPoll;
+    return { poll: joinedPoll };
   }
 
   async addParticipant(addParticipant: AddParticipantFields): Promise<Poll> {

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
-import { Poll } from 'shared';
-
 import { AppPage, actions } from '../store';
-import { makeRequest } from '../api';
+import { pollsApiInterface } from '../api';
 
 const Join: React.FC = () => {
   const [pollID, setPollID] = useState<string>('');
@@ -27,22 +25,18 @@ const Join: React.FC = () => {
     actions.startLoading();
     setApiError('');
 
-    const { data, error } = await makeRequest<{
-      poll: Poll;
-      accessToken: string;
-    }>('/polls/join', {
-      method: 'POST',
-      body: JSON.stringify({
-        pollID,
-        name,
-      }),
+    const res = await pollsApiInterface.pollsControllerJoin({
+      pollID,
+      name,
     });
 
-    if (error && error.statusCode === 400) {
+    const { data, error, error_msg } = res.data;
+
+    if (error_msg && error === 400) {
       setApiError('Please make sure to include a poll topic!');
-    } else if (error && !error.statusCode) {
+    } else if (error_msg && !error) {
       setApiError('Unknown API error');
-    } else {
+    } else if (data) {
       actions.initializePoll(data.poll);
       actions.setPollAccessToken(data.accessToken);
       actions.setPage(AppPage.WaitingRoom);

@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 
 import { PollsService } from './polls.service';
 import { AuthPayload, SocketWithAuth } from './types';
-import { WsUnauthorizedException } from '../exceptions/ws-exceptions';
+import { WsUnauthorizedException } from '../exceptions';
 
 @Injectable()
 export class GatewayAdminGuard implements CanActivate {

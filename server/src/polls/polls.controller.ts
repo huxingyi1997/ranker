@@ -7,6 +7,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { PollsService } from './polls.service';
 import {
@@ -14,39 +15,43 @@ import {
   CreatePollVo,
   JoinPollDto,
   JoinPollVo,
+  RejoinPollDto,
+  RejoinPollVo,
 } from './dto/polls.dto';
 import { ControllerAuthGuard } from './controller-auth.guard';
 import { RequestWithAuth } from './types';
+import { ApiUnifiedCreatedResponse } from 'src/utils';
 
+@ApiTags('polls')
 @UsePipes(new ValidationPipe())
 @Controller('polls')
 export class PollsController {
   constructor(private pollsService: PollsService) {}
 
   @Post()
+  @ApiUnifiedCreatedResponse(CreatePollVo)
   create(@Body() createPollDto: CreatePollDto): Promise<CreatePollVo> {
     return this.pollsService.createPoll(createPollDto);
   }
 
   @Post('/join')
+  @ApiUnifiedCreatedResponse(JoinPollVo)
   async join(@Body() joinPollDto: JoinPollDto): Promise<JoinPollVo> {
-    const result = await this.pollsService.joinPoll(joinPollDto);
-
-    return result;
+    return this.pollsService.joinPoll(joinPollDto);
   }
 
   @UseGuards(ControllerAuthGuard)
   @Post('/rejoin')
-  async rejoin(@Req() request: RequestWithAuth) {
+  @ApiUnifiedCreatedResponse(RejoinPollVo)
+  async rejoin(
+    @Req() request: RequestWithAuth,
+    @Body() _rejoinPollDto: RejoinPollDto,
+  ): Promise<RejoinPollVo> {
     const { userID, pollID, name } = request;
-    const rejoinPollResponse = await this.pollsService.rejoinPoll({
+    return this.pollsService.rejoinPoll({
       userID,
       pollID,
       name,
     });
-
-    return {
-      poll: rejoinPollResponse,
-    };
   }
 }

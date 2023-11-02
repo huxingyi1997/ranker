@@ -1,0 +1,236 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/polls": {
+      "post": {
+        "operationId": "PollsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreatePollDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePollVoUnifiedRes"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["polls"]
+      }
+    },
+    "/polls/join": {
+      "post": {
+        "operationId": "PollsController_join",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/JoinPollDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinPollVoUnifiedRes"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["polls"]
+      }
+    },
+    "/polls/rejoin": {
+      "post": {
+        "operationId": "PollsController_rejoin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RejoinPollDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RejoinPollVoUnifiedRes"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["polls"]
+      }
+    }
+  },
+  "info": {
+    "title": "Amazon Clone API",
+    "description": "v1",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" }
+    },
+    "schemas": {
+      "Nomination": {
+        "type": "object",
+        "properties": {
+          "userID": { "type": "string" },
+          "text": { "type": "string" }
+        },
+        "required": ["userID", "text"]
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "nominationID": { "type": "string" },
+          "nominationText": { "type": "string" },
+          "score": { "type": "number" }
+        },
+        "required": ["nominationID", "nominationText", "score"]
+      },
+      "Poll": {
+        "type": "object",
+        "properties": {
+          "participants": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "nominations": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Nomination"
+            }
+          },
+          "rankings": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "id": { "type": "string" },
+          "topic": { "type": "string" },
+          "votesPerVoter": { "type": "number" },
+          "results": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Result" }
+          },
+          "adminID": { "type": "string" },
+          "hasStarted": { "type": "boolean" }
+        },
+        "required": [
+          "participants",
+          "nominations",
+          "rankings",
+          "id",
+          "topic",
+          "votesPerVoter",
+          "results",
+          "adminID",
+          "hasStarted"
+        ]
+      },
+      "CreatePollVo": {
+        "type": "object",
+        "properties": {
+          "poll": { "$ref": "#/components/schemas/Poll" },
+          "accessToken": { "type": "string" }
+        },
+        "required": ["poll", "accessToken"]
+      },
+      "CreatePollDto": {
+        "type": "object",
+        "properties": {
+          "topic": { "type": "string", "minLength": 1, "maxLength": 100 },
+          "votesPerVoter": { "type": "number", "minimum": 1, "maximum": 5 },
+          "name": { "type": "string", "minLength": 1, "maxLength": 25 }
+        },
+        "required": ["topic", "votesPerVoter", "name"]
+      },
+      "JoinPollVo": {
+        "type": "object",
+        "properties": {
+          "poll": { "$ref": "#/components/schemas/Poll" },
+          "accessToken": { "type": "string" }
+        },
+        "required": ["poll", "accessToken"]
+      },
+      "JoinPollDto": {
+        "type": "object",
+        "properties": {
+          "pollID": { "type": "string", "minLength": 6, "maxLength": 6 },
+          "name": { "type": "string", "minLength": 1, "maxLength": 25 }
+        },
+        "required": ["pollID", "name"]
+      },
+      "RejoinPollVo": {
+        "type": "object",
+        "properties": { "poll": { "$ref": "#/components/schemas/Poll" } },
+        "required": ["poll"]
+      },
+      "RejoinPollDto": {
+        "type": "object",
+        "properties": { "accessToken": { "type": "string" } },
+        "required": ["accessToken"]
+      },
+      "CreatePollVoUnifiedRes": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/CreatePollVo"
+          },
+          "error": { "type": "integer" },
+          "error_msg": { "type": "string" }
+        }
+      },
+      "JoinPollVoUnifiedRes": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/JoinPollVo"
+          },
+          "error": { "type": "integer" },
+          "error_msg": { "type": "string" }
+        }
+      },
+      "RejoinPollVoUnifiedRes": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/RejoinPollVo"
+          },
+          "error": { "type": "integer" },
+          "error_msg": { "type": "string" }
+        }
+      }
+    }
+  }
+}

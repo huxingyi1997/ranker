@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Results } from 'shared';
+import { Result } from '../../api/autogen';
 
 type ResultCard = {
-  results: DeepReadonly<Results>;
+  results: DeepReadonly<Result[]>;
 };
 
 const ResultCard: React.FC<ResultCard> = ({ results }) => {

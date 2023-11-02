@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { Results } from 'shared';
-
+import { Result } from '../api/autogen';
 import ResultCard from './ui/ResultCard';
 import HorizontalSwipeList from './ui/HorizontalSwipeList';
 
 type ResultsList = {
-  results: DeepReadonly<Results>;
+  results: DeepReadonly<Result[]>;
 };
 
 const ResultsList: React.FC<ResultsList> = ({ results }) => {
