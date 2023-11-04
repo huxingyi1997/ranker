@@ -20,7 +20,7 @@ import { Namespace } from 'socket.io';
 
 import { PollsService } from './polls.service';
 import { SocketWithAuth } from './types';
-import { WsCatchAllFilter } from 'src/exceptions/ws-catch-all-filter';
+import { WsCatchAllFilter } from 'src/common';
 import { GatewayAdminGuard } from './gateway-admin.guard';
 import { NominationDto } from './dto/polls.dto';
 

@@ -10,7 +10,7 @@ import {
   WsBadRequestException,
   WsTypeException,
   WsUnknownException,
-} from './ws-exceptions';
+} from './ws-exceptions.filter';
 
 @Catch()
 export class WsCatchAllFilter implements ExceptionFilter {

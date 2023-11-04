@@ -7,7 +7,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 import { PollsService } from './polls.service';
 import {
@@ -43,10 +43,8 @@ export class PollsController {
   @UseGuards(ControllerAuthGuard)
   @Post('/rejoin')
   @ApiUnifiedCreatedResponse(RejoinPollVo)
-  async rejoin(
-    @Req() request: RequestWithAuth,
-    @Body() _rejoinPollDto: RejoinPollDto,
-  ): Promise<RejoinPollVo> {
+  @ApiBody({ type: RejoinPollDto })
+  async rejoin(@Req() request: RequestWithAuth): Promise<RejoinPollVo> {
     const { userID, pollID, name } = request;
     return this.pollsService.rejoinPoll({
       userID,
